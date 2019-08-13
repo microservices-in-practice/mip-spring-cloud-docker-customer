@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: customer
+  profiles:
+    active: dev
+
+---
+
+spring:
+  profiles: dev
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  datasource:
+    url: jdbc:h2:mem:customer-service
+    username: sa
+    password:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    locations: classpath:db/migration/{vendor},classpath:db/migration/common
+server:
+  port: 8092
+
+---
+
+spring:
+  profiles: prod
+  profiles.include: postgres
+
+
+---
+
+spring:
+  profiles: postgres
