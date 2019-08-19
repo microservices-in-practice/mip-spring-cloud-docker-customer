@@ -1,4 +1,4 @@
-package com.capgemini.mip.customer.service;
+package com.capgemini.mip.customer.domain;
 
 public final class AddressBuilder {
   private String street;

@@ -1,6 +1,6 @@
 package com.capgemini.mip.customer.service;
 
-import com.capgemini.mip.customer.domain.CustomerEntity;
+import com.capgemini.mip.customer.domain.Customer;
 import com.capgemini.mip.customer.repository.CustomerRepository;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,31 +21,31 @@ public class CustomerService {
   @Autowired
   private DozerBeanMapper beanMapper;
 
-  public Customer saveCustomer(Customer customer) {
-    CustomerEntity customerEntity = beanMapper.map(customer, CustomerEntity.class);
-    customerEntity = customerRepository.save(customerEntity);
-    return beanMapper.map(customerEntity, Customer.class);
+  public CustomerTO saveCustomer(CustomerTO customerTO) {
+    Customer customer = beanMapper.map(customerTO, Customer.class);
+    customer = customerRepository.save(customer);
+    return beanMapper.map(customer, CustomerTO.class);
   }
 
   public void deleteCustomer(Long id) {
     customerRepository.deleteById(id);
   }
 
-  public Customer findById(Long id) {
+  public CustomerTO findById(Long id) {
     return Optional.of(customerRepository.getOne(id))
-      .map(customerEntity -> beanMapper.map(customerEntity, Customer.class))
+      .map(customer -> beanMapper.map(customer, CustomerTO.class))
       .get();
   }
 
-  public Customer findByCode(String code) {
+  public CustomerTO findByCode(String code) {
     return Optional.ofNullable(customerRepository.findByCode(code))
-      .map(customerEntity -> beanMapper.map(customerEntity, Customer.class))
+      .map(customer -> beanMapper.map(customer, CustomerTO.class))
       .orElse(null);
   }
 
-  public List<Customer> findAll() {
+  public List<CustomerTO> findAll() {
     return customerRepository.findAll().stream()
-      .map(customerEntity -> beanMapper.map(customerEntity, Customer.class))
+      .map(customer -> beanMapper.map(customer, CustomerTO.class))
       .collect(Collectors.toList());
   }
 

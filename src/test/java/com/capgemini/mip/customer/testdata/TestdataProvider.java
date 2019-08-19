@@ -1,21 +1,21 @@
 package com.capgemini.mip.customer.testdata;
 
-import com.capgemini.mip.customer.domain.AddressEmbeddableBuilder;
-import com.capgemini.mip.customer.domain.CustomerEntity;
-import com.capgemini.mip.customer.domain.CustomerEntityBuilder;
-import com.capgemini.mip.customer.service.AddressBuilder;
-import com.capgemini.mip.customer.service.Customer;
-import com.capgemini.mip.customer.service.CustomerBuilder;
+import com.capgemini.mip.customer.domain.AddressBuilder;
+import com.capgemini.mip.customer.domain.Customer;
+import com.capgemini.mip.customer.domain.CustomerBuilder;
+import com.capgemini.mip.customer.service.AddressTOBuilder;
+import com.capgemini.mip.customer.service.CustomerTO;
+import com.capgemini.mip.customer.service.CustomerTOBuilder;
 
 public class TestdataProvider {
 
-  public static CustomerEntity provideCustomerEntity() {
-    return CustomerEntityBuilder.customerEntity()
+  public static Customer provideCustomer() {
+    return CustomerBuilder.customer()
       .withName("Cecilia Chapman")
       .withCode("5637401")
       .withVat("563-7401")
       .withBillingAddress(
-        AddressEmbeddableBuilder.address()
+        AddressBuilder.address()
           .withCity("Mankato Mississippi")
           .withStreet("711-2880 Nulla St.")
           .withZip("96522")
@@ -23,7 +23,7 @@ public class TestdataProvider {
           .build()
       )
       .withShippingAddress(
-        AddressEmbeddableBuilder.address()
+        AddressBuilder.address()
           .withCity("Mankato Mississippi")
           .withStreet("711-2880 Nulla St.")
           .withZip("96522")
@@ -33,13 +33,13 @@ public class TestdataProvider {
       .build();
   }
 
-  public static Customer provideCustomer(String code) {
-    return CustomerBuilder.customer()
+  public static CustomerTO provideCustomerTO(String code) {
+    return CustomerTOBuilder.customer()
       .withName("Cecilia Chapman")
       .withCode(code)
       .withVat("563-7401")
       .withBillingAddress(
-        AddressBuilder.address()
+        AddressTOBuilder.address()
           .withCity("Mankato")
           .withStreet("711-2880 Nulla St.")
           .withZip("96522")
@@ -47,7 +47,7 @@ public class TestdataProvider {
           .build()
       )
       .withShippingAddress(
-        AddressBuilder.address()
+        AddressTOBuilder.address()
           .withCity("Mankato")
           .withStreet("711-2880 Nulla St.")
           .withZip("96522")
@@ -57,7 +57,7 @@ public class TestdataProvider {
       .build();
   }
 
-  public static Customer provideCustomer() {
-    return provideCustomer("5637401");
+  public static CustomerTO provideCustomerTO() {
+    return provideCustomerTO("5637401");
   }
 }

@@ -1,10 +1,9 @@
 package com.capgemini.mip.customer.controller;
 
-import com.capgemini.mip.customer.service.Customer;
+import com.capgemini.mip.customer.service.CustomerTO;
 import com.capgemini.mip.customer.service.CustomerService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.PostConstruct;
 
-import static com.capgemini.mip.customer.testdata.TestdataProvider.provideCustomer;
+import static com.capgemini.mip.customer.testdata.TestdataProvider.provideCustomerTO;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -45,8 +44,8 @@ public class AnotherCustomerControllerIntegrationTest {
   @Test
   public void shouldGetCustomer() throws JsonProcessingException {
 
-    Customer customer = provideCustomer("111222");
-    Customer savedCustomer = customerService.saveCustomer(customer);
+    CustomerTO customer = provideCustomerTO("111222");
+    CustomerTO savedCustomer = customerService.saveCustomer(customer);
 
     given()
       .when().get(uri + "/customers/" + customer.getCode())
@@ -61,15 +60,15 @@ public class AnotherCustomerControllerIntegrationTest {
 
   @Test
   public void shouldCreateCustomer() throws JsonProcessingException {
-    Customer customer = provideCustomer("222111");
+    CustomerTO customer = provideCustomerTO("222111");
 
-    Customer createdCustomer = given()
+    CustomerTO createdCustomer = given()
       .body(toJson(customer)).contentType(JSON)
       .when().post(uri + "/customers")
       .then()
       .log().ifValidationFails()
       .statusCode(OK.value())
-      .extract().as(Customer.class);
+      .extract().as(CustomerTO.class);
 
     assertThat(customerService.findById(createdCustomer.getId())).isNotNull();
 

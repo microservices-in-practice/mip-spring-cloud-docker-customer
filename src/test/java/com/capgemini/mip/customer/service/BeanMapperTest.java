@@ -1,7 +1,7 @@
 package com.capgemini.mip.customer.service;
 
 import com.capgemini.mip.customer.config.ApplicationConfig;
-import com.capgemini.mip.customer.domain.CustomerEntity;
+import com.capgemini.mip.customer.domain.Customer;
 import com.capgemini.mip.customer.testdata.TestdataProvider;
 import org.dozer.DozerBeanMapper;
 import org.junit.Test;
@@ -20,8 +20,8 @@ public class BeanMapperTest {
 
   @Test
   public void shouldMapCustomerEntityToCustomer() {
-    CustomerEntity customerEntity = TestdataProvider.provideCustomerEntity();
-    Customer customer = beanMapper.map(customerEntity, Customer.class);
+    Customer customerEntity = TestdataProvider.provideCustomer();
+    CustomerTO customer = beanMapper.map(customerEntity, CustomerTO.class);
 
     assertThat(customer).isNotNull();
     assertThat(customer.getId()).isEqualTo(customer.getId());
@@ -42,8 +42,8 @@ public class BeanMapperTest {
 
   @Test
   public void shouldMapCustomerToCustomerEntity() {
-    Customer customer = TestdataProvider.provideCustomer();
-    CustomerEntity customerEntity = beanMapper.map(customer, CustomerEntity.class);
+    CustomerTO customer = TestdataProvider.provideCustomerTO();
+    Customer customerEntity = beanMapper.map(customer, Customer.class);
 
     assertThat(customerEntity).isNotNull();
     assertThat(customerEntity.getId()).isEqualTo(customerEntity.getId());

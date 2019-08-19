@@ -2,15 +2,15 @@ package com.capgemini.mip.customer.service;
 
 import java.io.Serializable;
 
-public class Customer implements Serializable {
+public class CustomerTO implements Serializable {
 
   private Long id;
   private Integer version;
   private String code;
   private String name;
   private String vat;
-  private Address shippingAddress;
-  private Address billingAddress;
+  private AddressTO shippingAddress;
+  private AddressTO billingAddress;
 
   public Long getId() {
     return id;
@@ -52,19 +52,19 @@ public class Customer implements Serializable {
     this.vat = vat;
   }
 
-  public Address getShippingAddress() {
+  public AddressTO getShippingAddress() {
     return shippingAddress;
   }
 
-  public void setShippingAddress(Address shippingAddress) {
+  public void setShippingAddress(AddressTO shippingAddress) {
     this.shippingAddress = shippingAddress;
   }
 
-  public Address getBillingAddress() {
+  public AddressTO getBillingAddress() {
     return billingAddress;
   }
 
-  public void setBillingAddress(Address billingAddress) {
+  public void setBillingAddress(AddressTO billingAddress) {
     this.billingAddress = billingAddress;
   }
 

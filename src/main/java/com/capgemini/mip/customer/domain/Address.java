@@ -1,7 +1,9 @@
-package com.capgemini.mip.customer.service;
+package com.capgemini.mip.customer.domain;
 
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 
+@Embeddable
 public class Address implements Serializable {
   private String street;
   private String city;

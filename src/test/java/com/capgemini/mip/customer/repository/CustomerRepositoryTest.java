@@ -1,6 +1,6 @@
 package com.capgemini.mip.customer.repository;
 
-import com.capgemini.mip.customer.domain.CustomerEntity;
+import com.capgemini.mip.customer.domain.Customer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static com.capgemini.mip.customer.testdata.TestdataProvider.provideCustomerEntity;
+import static com.capgemini.mip.customer.testdata.TestdataProvider.provideCustomer;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -24,11 +24,11 @@ public class CustomerRepositoryTest {
   @Test
   public void shouldFindCustomer() {
     // given
-    CustomerEntity customer = provideCustomerEntity();
-    CustomerEntity savedCustomer = entityManager.persist(customer);
+    Customer customer = provideCustomer();
+    Customer savedCustomer = entityManager.persist(customer);
 
     // whem
-    CustomerEntity foundCustomer = customerRepository.getOne(savedCustomer.getId());
+    Customer foundCustomer = customerRepository.getOne(savedCustomer.getId());
 
     // then
     assertThat(foundCustomer).isNotNull();
@@ -41,13 +41,13 @@ public class CustomerRepositoryTest {
   @Test
   public void shouldSaveCustomer() {
     // given
-    CustomerEntity customer = provideCustomerEntity();
+    Customer customer = provideCustomer();
 
     // whem
-    CustomerEntity savedCustomer = customerRepository.save(customer);
+    Customer savedCustomer = customerRepository.save(customer);
 
     // then
-    CustomerEntity foundCustomer = customerRepository.getOne(savedCustomer.getId());
+    Customer foundCustomer = customerRepository.getOne(savedCustomer.getId());
     assertThat(foundCustomer).isNotNull();
     assertThat(foundCustomer.getCode()).isEqualTo(savedCustomer.getCode());
     assertThat(foundCustomer.getBillingAddress()).isNotNull();
@@ -58,11 +58,11 @@ public class CustomerRepositoryTest {
   @Test
   public void shouldFindCustomerByCode() {
     // given
-    CustomerEntity customer = provideCustomerEntity();
-    CustomerEntity savedCustomer = entityManager.persist(customer);
+    Customer customer = provideCustomer();
+    Customer savedCustomer = entityManager.persist(customer);
 
     // whem
-    CustomerEntity foundCustomer = customerRepository.findByCode(savedCustomer.getCode());
+    Customer foundCustomer = customerRepository.findByCode(savedCustomer.getCode());
 
     // then
     assertThat(foundCustomer).isNotNull();

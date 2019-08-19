@@ -1,8 +1,9 @@
 package com.capgemini.mip.customer.controller;
 
-import com.capgemini.mip.customer.service.Customer;
-import com.capgemini.mip.customer.service.CustomerBuilder;
+import com.capgemini.mip.customer.service.CustomerTO;
+import com.capgemini.mip.customer.service.CustomerTOBuilder;
 import com.capgemini.mip.customer.service.CustomerService;
+import com.capgemini.mip.customer.testdata.TestdataProvider;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
@@ -13,7 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static com.capgemini.mip.customer.testdata.TestdataProvider.provideCustomer;
+import static com.capgemini.mip.customer.testdata.TestdataProvider.provideCustomerTO;
 import static io.restassured.http.ContentType.JSON;
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,11 +41,11 @@ public class CustomerControllerUnitTest {
   @Test
   public void shouldGetCustomer() throws JsonProcessingException {
 
-    Customer customer = provideCustomer();
+    CustomerTO customer = TestdataProvider.provideCustomerTO();
     when(customerService.findByCode(customer.getCode())).thenReturn(customer);
 
 
-    Customer foundCustomer =
+    CustomerTO foundCustomer =
       given()
         .when().get("/customers/" + customer.getCode())
         .then()
@@ -54,7 +55,7 @@ public class CustomerControllerUnitTest {
         .body("code", is(customer.getCode()))
         .body("name", is(customer.getName()))
         .body(equalTo(toJson(customer)))
-        .extract().as(Customer.class);
+        .extract().as(CustomerTO.class);
 
     assertThat(foundCustomer).isNotNull();
     assertThat(foundCustomer.getCode()).isEqualTo(customer.getCode());
@@ -63,8 +64,8 @@ public class CustomerControllerUnitTest {
 
   @Test
   public void shouldCreateCustomer() throws JsonProcessingException {
-    Customer customer = provideCustomer();
-    Customer updatedCustomer = CustomerBuilder.customer()
+    CustomerTO customer = TestdataProvider.provideCustomerTO();
+    CustomerTO updatedCustomer = CustomerTOBuilder.customer()
       .withBillingAddress(customer.getBillingAddress())
       .withShippingAddress(customer.getShippingAddress())
       .withCode(customer.getCode())
@@ -74,7 +75,7 @@ public class CustomerControllerUnitTest {
       .withVersion(1)
       .build();
 
-    when(customerService.saveCustomer(any(Customer.class))).thenReturn(updatedCustomer);
+    when(customerService.saveCustomer(any(CustomerTO.class))).thenReturn(updatedCustomer);
 
     given()
       .body(toJson(customer)).contentType(JSON)

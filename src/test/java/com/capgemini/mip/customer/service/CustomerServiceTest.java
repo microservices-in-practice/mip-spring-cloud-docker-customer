@@ -1,6 +1,7 @@
 package com.capgemini.mip.customer.service;
 
-import com.capgemini.mip.customer.domain.CustomerEntity;
+import com.capgemini.mip.customer.domain.Customer;
+import com.capgemini.mip.customer.testdata.TestdataProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.capgemini.mip.customer.testdata.TestdataProvider.provideCustomer;
+import static com.capgemini.mip.customer.testdata.TestdataProvider.provideCustomerTO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
@@ -33,10 +34,10 @@ public class CustomerServiceTest {
   @Test
   public void shouldCreateCustomer() {
     // given
-    Customer customer = provideCustomer();
+    CustomerTO customer = TestdataProvider.provideCustomerTO();
 
     // when
-    Customer savedCustomer = customerService.saveCustomer(customer);
+    CustomerTO savedCustomer = customerService.saveCustomer(customer);
 
     // then
 
@@ -54,12 +55,12 @@ public class CustomerServiceTest {
   @Test
   public void shouldUpdateCustomer() {
     // given
-    Customer customer = provideCustomer();
-    Customer savedCustomer = customerService.saveCustomer(customer);
+    CustomerTO customer = TestdataProvider.provideCustomerTO();
+    CustomerTO savedCustomer = customerService.saveCustomer(customer);
 
     // when
     savedCustomer.getBillingAddress().setStreet("Test Street");
-    Customer updatedCustomer = customerService.saveCustomer(savedCustomer);
+    CustomerTO updatedCustomer = customerService.saveCustomer(savedCustomer);
 
     // then
     assertThat(updatedCustomer).isNotNull();
@@ -72,24 +73,24 @@ public class CustomerServiceTest {
   @Test
   public void shouldDeleteCustomer() {
     // given
-    Customer savedCustomer = customerService.saveCustomer(provideCustomer());
-    assertThat(entityManager.find(CustomerEntity.class, savedCustomer.getId())).isNotNull();
+    CustomerTO savedCustomer = customerService.saveCustomer(TestdataProvider.provideCustomerTO());
+    assertThat(entityManager.find(Customer.class, savedCustomer.getId())).isNotNull();
 
     // when
     customerService.deleteCustomer(savedCustomer.getId());
 
     // then
-    assertThat(entityManager.find(CustomerEntity.class, savedCustomer.getId())).isNull();
+    assertThat(entityManager.find(Customer.class, savedCustomer.getId())).isNull();
 
   }
 
   @Test
   public void shouldFindById() {
     // given
-    Customer savedCustomer = customerService.saveCustomer(provideCustomer());
+    CustomerTO savedCustomer = customerService.saveCustomer(TestdataProvider.provideCustomerTO());
 
     // when
-    Customer foundCustomer = customerService.findById(savedCustomer.getId());
+    CustomerTO foundCustomer = customerService.findById(savedCustomer.getId());
 
     // then
     assertThat(foundCustomer).isNotNull();
@@ -101,10 +102,10 @@ public class CustomerServiceTest {
   @Test
   public void shouldFindByCode() {
     // given
-    Customer savedCustomer = customerService.saveCustomer(provideCustomer());
+    CustomerTO savedCustomer = customerService.saveCustomer(TestdataProvider.provideCustomerTO());
 
     // when
-    Customer foundCustomer = customerService.findByCode(savedCustomer.getCode());
+    CustomerTO foundCustomer = customerService.findByCode(savedCustomer.getCode());
 
     // then
     assertThat(foundCustomer).isNotNull();
@@ -117,19 +118,19 @@ public class CustomerServiceTest {
   public void shouldFindAll() {
     // given
     Long[] customerIds = Arrays.asList(
-      provideCustomer("1212"),
-      provideCustomer("2323"),
-      provideCustomer("3434")
+      provideCustomerTO("1212"),
+      provideCustomerTO("2323"),
+      provideCustomerTO("3434")
     ).stream()
       .map(customer -> customerService.saveCustomer(customer))
-      .map(Customer::getId)
+      .map(CustomerTO::getId)
       .toArray(Long[]::new);
 
     // when
-    List<Customer> customers = customerService.findAll();
+    List<CustomerTO> customers = customerService.findAll();
 
     // then
-    assertThat(customers.stream().map(Customer::getId).collect(Collectors.toList())).contains(customerIds);
+    assertThat(customers.stream().map(CustomerTO::getId).collect(Collectors.toList())).contains(customerIds);
 
   }
 

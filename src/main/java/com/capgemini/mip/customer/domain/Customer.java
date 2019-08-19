@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "customer")
-public class CustomerEntity implements Serializable {
+public class Customer implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,7 +31,7 @@ public class CustomerEntity implements Serializable {
     @AttributeOverride(name = "zip", column = @Column(name = "shipping_zip", nullable = false, length = 6)),
     @AttributeOverride(name = "state", column = @Column(name = "shipping_state", nullable = false))
   })
-  private AddressEmbeddable shippingAddress;
+  private Address shippingAddress;
 
   @Embedded
   @AttributeOverrides(value = {
@@ -40,7 +40,7 @@ public class CustomerEntity implements Serializable {
     @AttributeOverride(name = "zip", column = @Column(name = "billing_zip", nullable = false, length = 6)),
     @AttributeOverride(name = "state", column = @Column(name = "billing_state", nullable = false))
   })
-  private AddressEmbeddable billingAddress;
+  private Address billingAddress;
 
   public Long getId() {
     return id;
@@ -82,19 +82,19 @@ public class CustomerEntity implements Serializable {
     this.vat = vat;
   }
 
-  public AddressEmbeddable getShippingAddress() {
+  public Address getShippingAddress() {
     return shippingAddress;
   }
 
-  public void setShippingAddress(AddressEmbeddable shippingAddress) {
+  public void setShippingAddress(Address shippingAddress) {
     this.shippingAddress = shippingAddress;
   }
 
-  public AddressEmbeddable getBillingAddress() {
+  public Address getBillingAddress() {
     return billingAddress;
   }
 
-  public void setBillingAddress(AddressEmbeddable billingAddress) {
+  public void setBillingAddress(Address billingAddress) {
     this.billingAddress = billingAddress;
   }
 
