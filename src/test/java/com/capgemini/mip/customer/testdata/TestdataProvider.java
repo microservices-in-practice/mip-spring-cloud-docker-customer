@@ -12,8 +12,8 @@ public class TestdataProvider {
   public static CustomerEntity provideCustomerEntity() {
     return CustomerEntityBuilder.customerEntity()
       .withName("Cecilia Chapman")
-      .withCode("112332131")
-      .withVat("111122223333")
+      .withCode("5637401")
+      .withVat("563-7401")
       .withBillingAddress(
         AddressEmbeddableBuilder.address()
           .withCity("Mankato Mississippi")
@@ -37,27 +37,27 @@ public class TestdataProvider {
     return CustomerBuilder.customer()
       .withName("Cecilia Chapman")
       .withCode(code)
-      .withVat("111122223333")
+      .withVat("563-7401")
       .withBillingAddress(
         AddressBuilder.address()
-          .withCity("Mankato Mississippi")
+          .withCity("Mankato")
           .withStreet("711-2880 Nulla St.")
           .withZip("96522")
-          .withState("USA")
+          .withState("Mississippi")
           .build()
       )
       .withShippingAddress(
         AddressBuilder.address()
-          .withCity("Mankato Mississippi")
+          .withCity("Mankato")
           .withStreet("711-2880 Nulla St.")
           .withZip("96522")
-          .withState("USA")
+          .withState("Mississippi")
           .build()
       )
       .build();
   }
 
   public static Customer provideCustomer() {
-    return provideCustomer("112332131");
+    return provideCustomer("5637401");
   }
 }

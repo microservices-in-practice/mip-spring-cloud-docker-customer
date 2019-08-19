@@ -13,7 +13,7 @@ spring:
       enabled: true
       path: /h2-console
   datasource:
-    url: jdbc:h2:mem:customer-service
+    url: jdbc:h2:mem:customer-service;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE
     username: sa
     password:
   jpa:
