@@ -83,6 +83,34 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.31.0</version>
+        <configuration>
+          <images>
+            <image>
+              <name>mip/${artifactId}</name>
+              <!--<alias>customer-service</alias>-->
+              <build>
+                <contextDir>${project.basedir}/src/main/docker</contextDir>
+                <assembly>
+                  <descriptorRef>artifact</descriptorRef>
+                </assembly>
+              </build>
+              <run>
+                <ports>
+                  <port>8092:8080</port>
+                </ports>
+                <network>
+                  <mode>custom</mode>
+                  <name>microservices</name>
+                </network>
+              </run>
+            </image>
+          </images>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
