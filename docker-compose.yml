@@ -1,0 +1,36 @@
+version: '3.7'
+services:
+
+  customerdb:
+    image: postgres
+    hostname: customerdb
+#    ports:
+#      - "5432:5432"
+    networks:
+      - microservices
+#    volumes:
+#      - "customerdb:/var/lib/postgresql/data"
+    environment:
+      - POSTGRES_PASSWORD=customer
+      - POSTGRES_USER=customer
+      - POSTGRES_DB=customer
+
+  customersvc:
+    image: mip/customer-service
+    hostname: customersvc
+    depends_on:
+      - customerdb
+    networks:
+      - microservices
+    ports:
+      - 8092:8080
+    environment:
+      - SPRING_PROFILES_ACTIVE=cloud
+
+networks:
+  microservices:
+    external: true
+
+#volumes:
+#  customerdb:
+#    external: true
